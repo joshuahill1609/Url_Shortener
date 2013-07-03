@@ -15,7 +15,7 @@ class UrlShortener
       long_url = LongUrl.find_by_url(long_url)
     end
     short = ShortUrl.new(
-      :s_url => short_url, :long_url_id => long_url.id,
+      :s_url => short_url, :long_url_id => long_urlshorten.id,
       :user_id => @current_user_id)
     short.save!
     short.s_url
