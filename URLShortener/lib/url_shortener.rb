@@ -62,8 +62,8 @@ class UrlShortener
 
   def self.add_tag(s_url, tag)
     short = ShortUrl.find_by_s_url(s_url)
-
-    short.tag_topic = TagTopic.find_by_tag(tag).id
+    short.tag_topic = TagTopic.find_by_tag(tag)
+    short.save
   end
 
   def self.build_tag_table
