@@ -10,21 +10,21 @@ class UrlShortener
 
     if LongUrl.find_by_url(long_url).nil?
       long_url = LongUrl.new(:url => long_url)
-      long_url.save
+      long_url.save!
     else
       long_url = LongUrl.find_by_url(long_url)
     end
     short = ShortUrl.new(
       :s_url => short_url, :long_url_id => long_url.id,
       :user_id => @current_user_id)
-    short.save
+    short.save!
     short.s_url
   end
 
   def self.expand(s_url)
     short_url = ShortUrl.find_by_s_url(s_url)
     visit = Visit.new(:user_id => @current_user_id, :short_url_id => short_url.id)
-    visit.save
+    visit.save!
     long = LongUrl.find_by_id(short_url.long_url_id)
 
     puts UrlShortener.show_comments(short_url) if UrlShortener.show_comments(short_url)
@@ -52,7 +52,7 @@ class UrlShortener
   def self.add_comment(s_url, comment)
     s_url_id = ShortUrl.find_by_s_url(s_url).id
     comment = Comment.new(:body => comment, :short_url_id => s_url_id, :user_id => @current_user_id )
-    comment.save
+    comment.save!
   end
 
   def self.show_comments(s_url)
@@ -63,15 +63,15 @@ class UrlShortener
   def self.add_tag(s_url, tag)
     short = ShortUrl.find_by_s_url(s_url)
     short.tag_topic = TagTopic.find_by_tag(tag)
-    short.save
+    short.save!
   end
 
   def self.build_tag_table
     sports = TagTopic.new(:tag => "sports")
-    sports.save
+    sports.save!
     social = TagTopic.new(:tag => "social")
-    social.save
+    social.save!
     news = TagTopic.new(:tag => "news")
-    news.save
+    news.save!
   end
 end
